@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
-const Signup = () => {
+const Signup = ({ switchAuth }) => {
   const [isStep, setIsStep] = useState("name");
   const {
     register,
@@ -9,7 +10,22 @@ const Signup = () => {
     handleSubmit,
   } = useForm();
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log("update", data);
+    const url = `https://test.nexisltd.com/signup`;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          toast("Login done");
+        }
+      });
   };
   const handleStep = () => {
     isStep === "name" && setIsStep("contacts");
@@ -32,11 +48,11 @@ const Signup = () => {
               <input
                 type="text"
                 placeholder="Write First Name"
-                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4]outline-none ring-0 focus:border-black"
+                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-[#3B8BEA]"
                 {...register("first_name", {
                   required: {
                     value: true,
-                    message: "Name is require",
+                    message: "First Name is require",
                   },
                 })}
               />
@@ -53,11 +69,11 @@ const Signup = () => {
               <input
                 type="text"
                 placeholder="Write Last Name"
-                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4]outline-none ring-0 focus:border-black"
+                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-[#3B8BEA]"
                 {...register("last_name", {
                   required: {
                     value: true,
-                    message: "Name is require",
+                    message: "Last Name is require",
                   },
                 })}
               />
@@ -78,11 +94,11 @@ const Signup = () => {
               <input
                 type="text"
                 placeholder="Enter Your Number"
-                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4]outline-none ring-0 focus:border-black"
-                {...register("phone", {
+                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-[#3B8BEA]"
+                {...register("phone_number", {
                   required: {
                     value: true,
-                    message: "Name is require",
+                    message: "Number is require",
                   },
                 })}
               />
@@ -98,12 +114,12 @@ const Signup = () => {
               <label className="label"></label>
               <input
                 type="text"
-                placeholder="Enter Email Address"
-                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-black"
+                placeholder="Email Address"
+                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-[#3B8BEA]"
                 {...register("email", {
                   required: {
                     value: true,
-                    message: "Name is require",
+                    message: "Email is require",
                   },
                 })}
               />
@@ -123,12 +139,13 @@ const Signup = () => {
               <label className="label"></label>
               <input
                 type="text"
-                placeholder="Write a strong password"
-                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4]outline-none ring-0 focus:border-black"
+                placeholder="Write password"
+                className="mb-[65px] border-b-[1px] w-[368px] border-[##A4A4A4] outline-none ring-0 focus:border-[#3B8BEA]"
                 {...register("password", {
-                  required: {
-                    value: true,
-                    message: "Name is require",
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be 8 characters or longer",
                   },
                 })}
               />
@@ -173,6 +190,20 @@ const Signup = () => {
               </div>
             )}
           </button>
+        </div>
+        <div className="flex items-center gap-[10px] mt-12 mx-12">
+          <p>
+            <small className="">
+              Already have an account{" "}
+              <button
+                type="button"
+                onClick={switchAuth}
+                className="text-[#1678CB] uppercase text-base font-bold "
+              >
+                Login Here
+              </button>
+            </small>
+          </p>
         </div>
       </form>
     </div>

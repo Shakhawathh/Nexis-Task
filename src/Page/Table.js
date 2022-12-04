@@ -29,7 +29,9 @@ const Table = () => {
 
   return (
     <div>
-      <h2 className="text-center">Attendance Information</h2>
+      <h2 className="text-center p-5 bg-[#1678CB] text-white ">
+        Attendance Information
+      </h2>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y-2 divide-gray-200 text-sm">
           <thead>
